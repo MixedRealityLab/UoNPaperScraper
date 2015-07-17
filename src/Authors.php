@@ -2,8 +2,8 @@
 
 /**
  * University of Nottingham publication scraper.
- * 
- * @author Martin Porcheron <martin@porcheron.uk>
+ *
+ * @author  Martin Porcheron <martin@porcheron.uk>
  * @license MIT
  */
 
@@ -18,8 +18,8 @@ class Authors extends \ArrayObject
 {
     /**
      * Crawl a staff directory and retrieve a list of all staff listed
-     * 
-     * @param string $url
+     *
+     * @param  string $url
      *  URL to the staff directory
      * @return Authors $this
      */
@@ -50,7 +50,7 @@ class Authors extends \ArrayObject
 
     /**
      * Add an author to the list.
-     * 
+     *
      * @param string $surname
      *  Surname of the author.
      * @param string $otherNames
@@ -79,14 +79,12 @@ class Authors extends \ArrayObject
                 $pubs->crawl($author->url());
                 foreach ($pubs as $pub) {
                     $year = $pub->year();
-                    $title = \str_replace (' ', '', $pub->title());
+                    $title = \str_replace(' ', '', $pub->title());
                     $publications[$year. $title] = $pub;
                 }
-            } catch(RuntimeException $e) {
+            } catch (RuntimeException $e) {
                 die('Issue scraping - is the website working?');
             }
-
-            \sleep(1);
         }
 
         \krsort($publications);

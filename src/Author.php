@@ -2,8 +2,8 @@
 
 /**
  * University of Nottingham publication scraper.
- * 
- * @author Martin Porcheron <martin@porcheron.uk>
+ *
+ * @author  Martin Porcheron <martin@porcheron.uk>
  * @license MIT
  */
 
@@ -20,7 +20,7 @@ class Author
 
     /**
      * Construct the model of the author.
-     * 
+     *
      * @param string $surname
      *  Surname of the author.
      * @param string $otherNames

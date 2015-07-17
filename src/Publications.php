@@ -2,8 +2,8 @@
 
 /**
  * University of Nottingham publication scraper.
- * 
- * @author Martin Porcheron <martin@porcheron.uk>
+ *
+ * @author  Martin Porcheron <martin@porcheron.uk>
  * @license MIT
  */
 
@@ -18,8 +18,8 @@ class Publications extends \ArrayObject
 {
     /**
      * Crawl a public eStaffProfile page and retrieve a list of all publications
-     * 
-     * @param string $url
+     *
+     * @param  string $url
      *  URL to the author's eStaffProfile page
      * @return Publications $this
      */
@@ -29,7 +29,7 @@ class Publications extends \ArrayObject
             $html = $node->html();
 
             $doi = $node->attr('title');
-            if(\is_null($doi) || empty($doi) || $doi === 'No DOI number is available') {
+            if (\is_null($doi) || empty($doi) || $doi === 'No DOI number is available') {
                 $doi = null;
             }
 
@@ -61,7 +61,7 @@ class Publications extends \ArrayObject
 
                     if (\is_null($doi)) {
                         $doi = $tObj->attr('href');
-                        if(\is_null($doi) || empty($doi) || $doi === 'No DOI number is available') {
+                        if (\is_null($doi) || empty($doi) || $doi === 'No DOI number is available') {
                             $doi = null;
                         } else {
                             $doi = \str_replace('http://dx.doi.org/', '', $doi);
@@ -85,10 +85,10 @@ class Publications extends \ArrayObject
 
     /**
      * Add a publication to the list.
-     * 
+     *
      * @param string $doi
      *  DOI of the publication.
-     * @param int $year
+     * @param int    $year
      *  Year of the publication.
      * @param string $title
      *  Title of the publication.

@@ -2,8 +2,8 @@
 
 /**
  * University of Nottingham publication scraper.
- * 
- * @author Martin Porcheron <martin@porcheron.uk>
+ *
+ * @author  Martin Porcheron <martin@porcheron.uk>
  * @license MIT
  */
 
@@ -21,10 +21,10 @@ class Publication
 
     /**
      * Construct the model of a publication.
-     * 
+     *
      * @param string $doi
      *  DOI of the publication.
-     * @param int $year
+     * @param int    $year
      *  Year of the publication.
      * @param string $title
      *  Title of the publication.
@@ -70,5 +70,4 @@ class Publication
     {
         return $this->html;
     }
-
 }
