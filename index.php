@@ -2,7 +2,7 @@
 
 /**
  * Example usage file.
- * 
+ *
  * @author Martin Porcheron <martin@porcheron.uk>
  * @license MIT
  */
@@ -11,8 +11,8 @@ require 'vendor/autoload.php';
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// Debug output
-\define('DEBUG', true);
+// Timezone (PHP requirement)
+\date_default_timezone_set('Europe/London');
 
 // Research Group eStaffProfile directory
 \define('URL_ESP', 'http://www.nottingham.ac.uk/research/groups/mixedrealitylab/people/index.aspx');
@@ -27,7 +27,7 @@ require 'vendor/autoload.php';
 \define('GRP_ST', 1990);
 
 // Last year to group publications to
-\define('GRP_END', \date('Y'));
+\define('GRP_END', 2020);
 
 // How many years appear in each group
 \define('GRP_INC', 5);
@@ -41,9 +41,7 @@ require 'vendor/autoload.php';
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Fetch all publications for all staff
-$pubs = (new NottPubs\Authors())
-    ->crawl(URL_ESP)
-    ->crawlPublications();
+$pubs = (new \NottPubs\Authors(URL_ESP))->publications(true);
 
 if (empty($pubs)) {
     die('No publications');
@@ -88,25 +86,19 @@ foreach ($pubsByYear as $year => $pubs) {
 }
 
 // Create pages for groups for the website to reduce the total number of pages
-$years = \range (GRP_ST, GRP_END, GRP_INC); 
-$numYears = \count ($years) - 1;
+$years = \range(GRP_ST, GRP_END, GRP_INC);
+$numYears = \count($years) - 1;
 for ($i = 0; $i < $numYears; $i++) {
     $firstYear = $years[$i];
     $lastYear = $years[$i+1]-1;
 
-    if (DEBUG) \printf("%d - %d\n", $firstYear, $lastYear);
-
-    $html = ''; 
+    $html = '';
     for ($year = $lastYear; $year >= $firstYear; $year--) {
         $file = \sprintf(PATH_YR, $year);
 
-        if (\is_file ($file)) {
-            if (DEBUG) \printf("%d", $year);
-            
+        if (\is_file($file)) {
             $html .= '<h2 class="headingBackground">'. $year .'</h2>';
-            $html .= \file_get_contents ($file);
-        } else if (DEBUG) {
-            \printf("%d - no pubs", $year);
+            $html .= \file_get_contents($file);
         }
     }
 
@@ -115,6 +107,6 @@ for ($i = 0; $i < $numYears; $i++) {
     }
 
     $html = \sprintf('<h1>%s</h1>%s', STR_TITLE, $html);
-    $file = \sprintf(PATH_GRP, $lastYear, $firstYear); 
+    $file = \sprintf(PATH_GRP, $lastYear, $firstYear);
     \file_put_contents($file, $html);
 }

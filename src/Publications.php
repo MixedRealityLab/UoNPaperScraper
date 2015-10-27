@@ -9,84 +9,49 @@
 
 namespace NottPubs;
 
-use Goutte\Client;
-
 /**
- * A list of publications for an author.
+ * A list of publications for an author. Attempts are made to eliminate duplicate papers.
  */
-class Publications extends \ArrayObject
+class Publications extends \ArrayObject implements \JsonSerializable
 {
     /**
-     * Crawl a public eStaffProfile page and retrieve a list of all publications
-     *
-     * @param  string $url
-     *  URL to the author's eStaffProfile page
-     * @return Publications $this
+     * @deprecated
+     *  This function has been replaced by \NottPubs\Author::publications($crawl);
+     * @throws \BadFunctionCallException
      */
     public function crawl($url)
     {
-        $scrapePubs = function ($node) {
-            $html = $node->html();
-
-            $doi = $node->attr('title');
-            if (\is_null($doi) || empty($doi) || $doi === 'No DOI number is available') {
-                $doi = null;
-            }
-
-            $year = null;
-            $yearClasses = ['.citationArticleYear',
-                '.citationConferenceContributionYear',
-                '.citationConferenceYear',
-                '.citationChapterYear',
-                '.citationAuthoredBookYear'];
-            foreach ($yearClasses as $yearClass) {
-                $yObjs = $node->filter($yearClass);
-                if ($yObjs->count() > 0) {
-                    $yObj = $yObjs->first();
-                    \preg_match('/([0-9]+)/', $yObj->text(), $yearMatches);
-                    $year = $yearMatches[0];
-                }
-            }
-
-            $title = null;
-            $titleClasses = ['.citationArticleTitle',
-                '.citationConferenceContributionTitle',
-                '.citationChapterDetails',
-                '.citationAuthoredBookTitle'];
-            foreach ($titleClasses as $titleClass) {
-                $tObjs = $node->filter($titleClass);
-                if ($tObjs->count() > 0) {
-                    $tObj = $tObjs->first();
-                    $title = $tObj->text();
-
-                    if (\is_null($doi)) {
-                        $doi = $tObj->attr('href');
-                        if (\is_null($doi) || empty($doi) || $doi === 'No DOI number is available') {
-                            $doi = null;
-                        } else {
-                            $doi = \str_replace('http://dx.doi.org/', '', $doi);
-                        }
-                    }
-
-
-                    break;
-                }
-            }
-
-            $this->addPub($doi, $year, $title, $html);
-        };
-
-        $client = new Client();
-        $crawler = $client->request('GET', $url);
-        $crawler->filter('.sys_publicationsListing li')->each($scrapePubs);
-
-        return $this;
+        throw new \BadFunctionCallException('This function has been removed');
     }
 
     /**
-     * Add a publication to the list.
+     * Add an existing \Publication to the list.
      *
-     * @param string $doi
+     * @param \NottPubs\Publication $pub
+     *  Existing \NottPubs\Publication object.
+     */
+    public function add(\NottPubs\Publication $pub)
+    {
+        if (!\is_null($pub->doi())) {
+            if ($this->offsetExists($pub->doi())) {
+                return;
+            }
+
+            $key = $pub->doi();
+        } else {
+            $key = $pub->year() . \str_replace(' ', '', $pub->title());
+            if ($this->offsetExists($key)) {
+                return;
+            }
+        }
+
+        $this->offsetSet($key, $pub);
+    }
+
+    /**
+     * Add a new publication to the list.
+     *
+     * @param string|null $doi
      *  DOI of the publication.
      * @param int    $year
      *  Year of the publication.
@@ -95,8 +60,77 @@ class Publications extends \ArrayObject
      * @param string $html
      *  HTML of the publication scraped from the webpage.
      */
+    public function addNew($doi, $year, $title, $html)
+    {
+        if (!\is_null($doi)) {
+            if ($this->offsetExists($doi)) {
+                return;
+            }
+
+            $key = $doi;
+        } else {
+            $key = $year . \str_replace(' ', '', $title);
+            if ($this->offsetExists($key)) {
+                return;
+            }
+        }
+
+        $this->offsetSet($key, new \NottPubs\Publication($doi, $year, $title, $html));
+    }
+
+    /**
+     * @deprecated
+     *  This was renamed to {@code \NottPubs\Publications::appendNew($doi, $year, $title, $html)} for clarity.
+     */
     public function addPub($doi, $year, $title, $html)
     {
-        $this->append(new Publication($doi, $year, $title, $html));
+        $this->addNew($doi, $year, $title, $html);
+    }
+
+    /**
+     * Merge an existing publications list.
+     *
+     * @param \NottPubs\Publications $pubs
+     *  An existing publications list to merge.
+     */
+    public function merge(\NottPubs\Publications $pubs)
+    {
+        foreach ($pubs as $pub) {
+            $this->add($pub);
+        }
+    }
+
+    /**
+     * Get a array copy of this list of Publications.
+     *
+     * @param boolean $numeric
+     *  If {@code true}, a numeric array is returned.
+     */
+    public function getArrayCopy($numeric = true)
+    {
+        $array = [];
+
+        if ($numeric) {
+            foreach ($this as $pub) {
+                $array[] = $pub;
+            }
+        } else {
+            foreach ($this as $key => $pub) {
+                $array[$key] = $pub;
+            }
+        }
+
+        return $array;
+    }
+
+    /**
+     * Prepare this list of Publications for JSON-encoding.
+     *
+     * @return string
+     *  JSON-ready array of publications.
+     */
+    public function jsonSerialize()
+    {
+        return $this->getArrayCopy(true);
     }
 }

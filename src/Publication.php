@@ -12,7 +12,7 @@ namespace NottPubs;
 /**
  * Details of a publication.
  */
-class Publication
+class Publication implements \JsonSerializable
 {
     private $doi;
     private $year;
@@ -22,7 +22,7 @@ class Publication
     /**
      * Construct the model of a publication.
      *
-     * @param string $doi
+     * @param string|null $doi
      *  DOI of the publication.
      * @param int    $year
      *  Year of the publication.
@@ -40,7 +40,7 @@ class Publication
     }
 
     /**
-     * @return int DOI of the publication.
+     * @return string|null DOI of the publication.
      */
     public function doi()
     {
@@ -69,5 +69,21 @@ class Publication
     public function html()
     {
         return $this->html;
+    }
+
+    /**
+     * Prepare this Publication for JSON-encoding.
+     *
+     * @return string
+     *  JSON-ready object of publication details.
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'doi' => $this->doi(),
+            'year' => $this->year(),
+            'title' => $this->title(),
+            'doi' => $this->doi()
+        ];
     }
 }
