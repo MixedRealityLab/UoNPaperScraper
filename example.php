@@ -91,6 +91,7 @@ foreach ($pubsByYear as $year => $pubs) {
     $html .= \implode('', $pubsByYear[$year]);
     $html .= '</ul></div>';
 
+    @\mkdir(\dirname($file), 0777, true);
     \file_put_contents($file, $html);
 }
 
@@ -117,5 +118,6 @@ for ($i = 0; $i < $numYears; $i++) {
 
     $html = \sprintf('<h1>%s</h1>%s', STR_TITLE, $html);
     $file = \sprintf(PATH_GRP, $lastYear, $firstYear);
+    @\mkdir(\dirname($file), 0777, true);
     \file_put_contents($file, $html);
 }
