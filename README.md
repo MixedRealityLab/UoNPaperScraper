@@ -13,7 +13,7 @@ To extract an [iterable list](http://php.net/manual/en/class.arrayobject.php) of
 
 	foreach ($authors as $author) {
 		// each author object has surname(), otherNames(), and
-		// url() methods to return their respective content  
+		// url() methods to return their respective content
 	}
 
 This list can also be converted to a JSON list using the standard PHP `json_encode` function:

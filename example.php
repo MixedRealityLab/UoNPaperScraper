@@ -14,8 +14,15 @@ require 'vendor/autoload.php';
 // Timezone (PHP requirement)
 \date_default_timezone_set('Europe/London');
 
+// Print progress?
+\define('PROGRESS', true);
+
 // Research Group eStaffProfile directory
 \define('URL_ESP', 'http://www.nottingham.ac.uk/research/groups/mixedrealitylab/people/index.aspx');
+
+// Sleep time between publication scraping requests; if 0, you may crash the
+// publications list appliance for the University website
+\define('CRAWL_SLEEP', 5);
 
 // Page title
 \define('STR_TITLE', 'Publications');
@@ -40,8 +47,12 @@ require 'vendor/autoload.php';
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// Logging level
+\NottPubs\Log::setLevel(\NottPubs\Log::LOG_NONE);
+
 // Fetch all publications for all staff
-$pubs = (new \NottPubs\Authors(URL_ESP))->publications(true);
+$authors = new \NottPubs\Authors(URL_ESP);
+$pubs = $authors->publications(true, CRAWL_SLEEP);
 
 if (empty($pubs)) {
     die('No publications');

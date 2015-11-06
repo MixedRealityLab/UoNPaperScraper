@@ -43,6 +43,8 @@ class Authors extends \ArrayObject implements \JsonSerializable
      */
     private function crawl($url)
     {
+        Log::debug('Crawling the People directory');
+
         $urlPrefix = \str_replace('index.aspx', '', $url);
         $scrapeAuthors = function ($node) use ($urlPrefix) {
             $fullName = $node->text();
@@ -56,7 +58,8 @@ class Authors extends \ArrayObject implements \JsonSerializable
             $surname = \substr($fullName, 0, $commaPos);
             $otherNames = \substr($fullName, $commaPos+2);
 
-            $this->addAuthor($surname, $otherNames, $urlPrefix . $href);
+            Log::verbose('Found ' . $otherNames . ' ' . $surname);
+            $author = $this->addAuthor($surname, $otherNames, $urlPrefix . $href);
         };
 
         try {
@@ -79,11 +82,15 @@ class Authors extends \ArrayObject implements \JsonSerializable
      *  All other names of the author.
      * @param string $url
      *  URL to the author's public eStaffProfile page with publications.
+     * @return \NottPubs\Author
+     *  Newly created author.
      */
     public function addAuthor($surname, $otherNames, $url)
     {
         $fullName = $otherNames . ' ' . $surname;
-        $this->offsetSet($fullName, new \NottPubs\Author($surname, $otherNames, $url));
+        $author = new \NottPubs\Author($surname, $otherNames, $url);
+        $this->offsetSet($fullName, $author);
+        return $author;
     }
 
     /**
@@ -102,14 +109,26 @@ class Authors extends \ArrayObject implements \JsonSerializable
      * @param boolean
      *  Crawl for a list of publications, if {@code false} returns publications
      *  added already without crawling for new publciations.
+     * @param int
+     *  Time to sleep between scrapes of each individual eStaffProfile publication
+     *  list (in seconds); defaults to zero.
      * @throws \NottPubs\CrawlException
      *  Thrown if there is an error during the crawl.
      * @return \NottPubs\Publications A list of publications for all authors in the object.
      */
-    public function publications($crawl = false)
+    public function publications($crawl = false, $sleep = 0)
     {
+        if ($crawl) {
+            Log::debug('Crawling each eStaffProfile publication list');
+        }
+
         foreach ($this as $author) {
-            $this->publications->merge($author->publications($crawl));
+            $pubs = $author->publications($crawl);
+            $this->publications->merge($pubs);
+
+            if ($sleep > 0) {
+                \sleep($sleep);
+            }
         }
 
         $this->publications->ksort();

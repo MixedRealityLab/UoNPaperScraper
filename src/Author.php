@@ -83,6 +83,8 @@ class Author implements \JsonSerializable
     public function publications($crawl = false)
     {
         if ($crawl && !\is_null($this->url)) {
+            Log::status('Crawling publication list for ' . $this->otherNames() . ' ' . $this->surname());
+
             $scrapePubs = function ($node) {
                 $html = \trim($node->html());
 
