@@ -14,9 +14,6 @@ require 'vendor/autoload.php';
 // Timezone (PHP requirement)
 \date_default_timezone_set('Europe/London');
 
-// Print progress?
-\define('PROGRESS', true);
-
 // Research Group eStaffProfile directory
 \define('URL_ESP', 'http://www.nottingham.ac.uk/research/groups/mixedrealitylab/people/index.aspx');
 
@@ -48,7 +45,7 @@ require 'vendor/autoload.php';
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Logging level
-\NottPubs\Log::setLevel(\NottPubs\Log::LOG_NONE);
+\NottPubs\Log::setLevel(\NottPubs\Log::LOG_VERBOSE);
 
 // Fetch all publications for all staff
 $authors = new \NottPubs\Authors(URL_ESP);
