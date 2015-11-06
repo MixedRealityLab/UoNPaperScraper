@@ -95,9 +95,10 @@ class Publications extends \ArrayObject implements \JsonSerializable
      */
     public function merge(\NottPubs\Publications $pubs)
     {
-        foreach ($pubs as $pub) {
+        foreach ($pubs as &$pub) {
             $this->add($pub);
         }
+        unset($pub);
     }
 
     /**
@@ -111,13 +112,15 @@ class Publications extends \ArrayObject implements \JsonSerializable
         $array = [];
 
         if ($numeric) {
-            foreach ($this as $pub) {
+            foreach ($this as &$pub) {
                 $array[] = $pub;
             }
+            unset($pub);
         } else {
-            foreach ($this as $key => $pub) {
+            foreach ($this as $key => &$pub) {
                 $array[$key] = $pub;
             }
+            unset($pub);
         }
 
         return $array;

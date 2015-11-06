@@ -60,7 +60,7 @@ if (empty($pubs)) {
 
 // Collate publications by year
 $pubsByYear = [];
-foreach ($pubs as $pub) {
+foreach ($pubs as &$pub) {
     $year = $pub->year();
     if (empty($year)) {
         continue;
@@ -83,6 +83,7 @@ foreach ($pubs as $pub) {
 
     $pubsByYear[$year][] = $html;
 }
+unset($pub);
 
 // Create seperate files for each year
 foreach ($pubsByYear as $year => $pubs) {

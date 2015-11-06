@@ -122,7 +122,7 @@ class Authors extends \ArrayObject implements \JsonSerializable
             Log::debug('Crawling each eStaffProfile publication list');
         }
 
-        foreach ($this as $author) {
+        foreach ($this as &$author) {
             $pubs = $author->publications($crawl);
             $this->publications->merge($pubs);
 
@@ -130,6 +130,7 @@ class Authors extends \ArrayObject implements \JsonSerializable
                 \sleep($sleep);
             }
         }
+        unset($author);
 
         $this->publications->ksort();
         return $this->publications;
@@ -146,13 +147,15 @@ class Authors extends \ArrayObject implements \JsonSerializable
         $array = [];
 
         if ($numeric) {
-            foreach ($this as $author) {
+            foreach ($this as &$author) {
                 $array[] = $author;
             }
+            unset($author);
         } else {
-            foreach ($this as $key => $author) {
+            foreach ($this as $key => &$author) {
                 $array[$key] = $author;
             }
+            unset($author);
         }
 
         return $array;

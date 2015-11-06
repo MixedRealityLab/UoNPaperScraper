@@ -102,7 +102,7 @@ class Author implements \JsonSerializable
                     '.citationConferenceYear',
                     '.citationChapterYear',
                     '.citationAuthoredBookYear'];
-                foreach ($yearClasses as $yearClass) {
+                foreach ($yearClasses as &$yearClass) {
                     $yObjs = $node->filter($yearClass);
                     if ($yObjs->count() > 0) {
                         $yObj = $yObjs->first();
@@ -110,13 +110,14 @@ class Author implements \JsonSerializable
                         $year = \intval($yearMatches[0]);
                     }
                 }
+                unset($yearClass);
 
                 $title = null;
                 $titleClasses = ['.citationArticleTitle',
                     '.citationConferenceContributionTitle',
                     '.citationChapterDetails',
                     '.citationAuthoredBookTitle'];
-                foreach ($titleClasses as $titleClass) {
+                foreach ($titleClasses as &$titleClass) {
                     $tObjs = $node->filter($titleClass);
                     if ($tObjs->count() > 0) {
                         $tObj = $tObjs->first();
@@ -136,6 +137,7 @@ class Author implements \JsonSerializable
                         break;
                     }
                 }
+                unset($titleClass);
 
                 $this->publications->addNew($doi, $year, $title, $html);
             };

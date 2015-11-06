@@ -11,7 +11,7 @@ To extract an [iterable list](http://php.net/manual/en/class.arrayobject.php) of
 	$url = 'URL TO PEOPLE/STAFF DIRECTORY';
 	$authors = new \NottPubs\Authors($url); // specifying a URL causes a crawl to occur
 
-	foreach ($authors as $author) {
+	foreach ($authors as &$author) {
 		// each author object has surname(), otherNames(), and
 		// url() methods to return their respective content
 	}
@@ -32,7 +32,7 @@ To retrieve the list of publications for a single staff member, do:
 
 Again, this `$publications` object is iterable, and can also be converted to a JSON string:
 
-	foreach ($publications as $publication) {
+	foreach ($publications as &$publication) {
 		// each publication object has doi(), title(), year() and 
 		// html() functions to return their respective content  
 	}
