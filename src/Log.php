@@ -58,7 +58,7 @@ class Log
     public static function status($str) {
         if (self::$level >= self::LOG_VERBOSE) {
             self::verbose($str);
-        } else if (self::$level > self::LOG_NONE) { {
+        } else if (self::$level > self::LOG_NONE) {
             echo ".";
             \flush();
         }
