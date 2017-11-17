@@ -45,10 +45,10 @@ require 'vendor/autoload.php';
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Logging level
-\NottPubs\Log::setLevel(\NottPubs\Log::LOG_VERBOSE);
+\Porcheron\UonPaperScraper\Log::setLevel(\Porcheron\UonPaperScraper\Log::LOG_VERBOSE);
 
 // Fetch all publications for all staff
-$authors = new \NottPubs\Authors(URL_ESP);
+$authors = new \Porcheron\UonPaperScraper\Authors(URL_ESP);
 $pubs = $authors->publications(true, CRAWL_SLEEP);
 
 if (empty($pubs)) {

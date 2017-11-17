@@ -7,7 +7,7 @@
  * @license MIT
  */
 
-namespace NottPubs;
+namespace Porcheron\UonPaperScraper;
 
 /**
  * Error during crawling.

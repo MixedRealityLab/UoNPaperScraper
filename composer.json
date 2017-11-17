@@ -1,11 +1,11 @@
 {
-	"name": "porcheron/UoNPaperScraper",
+	"name": "porcheron/uon-paper-scraper",
 	"description": "Utility to scrape a collection of University of Nottingham staff profile pages to allow for collation of publications",
 	"license": "MIT",
 	"authors": [
 		{
 		"name": "Martin Porcheron",
-		"email": "martin@porcheron.uk"
+		"email": "martin-uonpaperscraper@porcheron.uk"
 		}
 	],
 	"require": {
@@ -16,6 +16,6 @@
         "squizlabs/php_codesniffer": "2.*"
     },
 	"autoload": {
-		"psr-4": {"NottPubs\\": "src"}
+		"psr-4": {"Porcheron\\UonPaperScraper\\": "src"}
 	}
 }

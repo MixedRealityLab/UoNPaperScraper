@@ -7,7 +7,7 @@
  * @license MIT
  */
 
-namespace NottPubs;
+namespace Porcheron\UonPaperScraper;
 
 /**
  * Basic logging functionality. No need for complexity with this.
@@ -24,7 +24,7 @@ class Log
     const LOG_VERBOSE = 256;
 
     /** @var int Logging level to use */
-    private static $level = LOG_NONE;
+    private static $level = self::LOG_NONE;
 
     /**
      * Set the logging level.

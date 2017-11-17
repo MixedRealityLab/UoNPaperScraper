@@ -7,7 +7,7 @@
  * @license MIT
  */
 
-namespace NottPubs;
+namespace Porcheron\UonPaperScraper;
 
 use Goutte\Client;
 
@@ -36,7 +36,7 @@ class Author implements \JsonSerializable
         $this->surname = $surname;
         $this->otherNames = $otherNames;
         $this->url($url);
-        $this->publications = new \NottPubs\Publications();
+        $this->publications = new \Porcheron\UonPaperScraper\Publications();
     }
 
     /**
@@ -76,9 +76,9 @@ class Author implements \JsonSerializable
      *  Crawl for a list of publications, if {@code false} returns publications
      *  added already without crawling for new publciations. URL must have been
      *  provided already.
-     * @throws \NottPubs\CrawlException
+     * @throws \Porcheron\UonPaperScraper\CrawlException
      *  Thrown if there is an error during the crawl.
-     * @return \NottPubs\Publications A list of publications for the author.
+     * @return \Porcheron\UonPaperScraper\Publications A list of publications for the author.
      */
     public function publications($crawl = false)
     {
@@ -147,7 +147,7 @@ class Author implements \JsonSerializable
                 $crawler = $client->request('GET', $this->url);
                 $crawler->filter('.sys_publicationsListing li')->each($scrapePubs);
             } catch (RuntimeException $e) {
-                throw new \NottPubs\CrawlException($e->getMessage());
+                throw new \Porcheron\UonPaperScraper\CrawlException($e->getMessage());
             }
         }
 

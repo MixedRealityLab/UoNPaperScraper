@@ -7,7 +7,7 @@
  * @license MIT
  */
 
-namespace NottPubs;
+namespace Porcheron\UonPaperScraper;
 
 use Goutte\Client;
 
@@ -29,7 +29,7 @@ class Authors extends \ArrayObject implements \JsonSerializable
     public function __construct($url = null)
     {
         $this->url = $url;
-        $this->publications = new \NottPubs\Publications();
+        $this->publications = new \Porcheron\UonPaperScraper\Publications();
         if (!\is_null($url)) {
             $this->crawl($url);
         }
@@ -67,9 +67,9 @@ class Authors extends \ArrayObject implements \JsonSerializable
             $crawler = $client->request('GET', $url);
             $crawler->filter('.sys_stafflistazsection table tbody td a')->each($scrapeAuthors);
         } catch (\RuntimeException $e) {
-            throw new \NottPubs\CrawlException($e->getMessage());
+            throw new \Porcheron\UonPaperScraper\CrawlException($e->getMessage());
         } catch (\GuzzleHttp\Exception\GuzzleException $e) {
-            throw new \NottPubs\CrawlException($e->getMessage());
+            throw new \Porcheron\UonPaperScraper\CrawlException($e->getMessage());
         }
     }
 
@@ -82,13 +82,13 @@ class Authors extends \ArrayObject implements \JsonSerializable
      *  All other names of the author.
      * @param string $url
      *  URL to the author's public eStaffProfile page with publications.
-     * @return \NottPubs\Author
+     * @return \Porcheron\UonPaperScraper\Author
      *  Newly created author.
      */
     public function addAuthor($surname, $otherNames, $url)
     {
         $fullName = $otherNames . ' ' . $surname;
-        $author = new \NottPubs\Author($surname, $otherNames, $url);
+        $author = new \Porcheron\UonPaperScraper\Author($surname, $otherNames, $url);
         $this->offsetSet($fullName, $author);
         return $author;
     }
@@ -96,7 +96,7 @@ class Authors extends \ArrayObject implements \JsonSerializable
     /**
      * @deprecated boolean
      *  This was replaced with {@code publications($crawl)} for consistency.
-     * @return \NottPubs\Publications A list of publications for all authors in the object.
+     * @return \Porcheron\UonPaperScraper\Publications A list of publications for all authors in the object.
      */
     public function crawlPublications()
     {
@@ -112,9 +112,9 @@ class Authors extends \ArrayObject implements \JsonSerializable
      * @param int
      *  Time to sleep between scrapes of each individual eStaffProfile publication
      *  list (in seconds); defaults to zero.
-     * @throws \NottPubs\CrawlException
+     * @throws \Porcheron\UonPaperScraper\CrawlException
      *  Thrown if there is an error during the crawl.
-     * @return \NottPubs\Publications A list of publications for all authors in the object.
+     * @return \Porcheron\UonPaperScraper\Publications A list of publications for all authors in the object.
      */
     public function publications($crawl = false, $sleep = 0)
     {

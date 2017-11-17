@@ -1,6 +1,6 @@
-# UoNPaperScraper
+# uom-paper-scraper
 
-Utility to scrape a collection of staff profile pages to allow for collation of publication lists.
+Utility to scrape a collection of staff profile pages from the University of Nottingham to allow for collation of publication lists.
 
 ## Setup
 
@@ -13,7 +13,7 @@ Below are a number of separate examples. See `example.php` for example scraping 
 To extract an [iterable list](http://php.net/manual/en/class.arrayobject.php) of authors, use:
 	
 	$url = 'URL TO PEOPLE/STAFF DIRECTORY';
-	$authors = new \NottPubs\Authors($url); // specifying a URL causes a crawl to occur
+	$authors = new \Porcheron\UonPaperScraper\Authors($url); // specifying a URL causes a crawl to occur
 
 	foreach ($authors as &$author) {
 		// each author object has surname(), otherNames(), and
@@ -30,7 +30,7 @@ To retrieve the list of publications for a single staff member, do:
 	$surname = 'SURNAME';
 	$otherNames = 'OTHER NAMES';
 	$url = 'URL TO STAFF MEMBER'S PUBLIC ESTAFFPROFILE PAGE';
-	$author = new \NottPubs\Author($surname, $otherNames, $url);
+	$author = new \Porcheron\UonPaperScraper\Author($surname, $otherNames, $url);
 
 	$publications = $author->publications(true); // true causes a crawl to occur
 
@@ -47,6 +47,6 @@ Again, this `$publications` object is iterable, and can also be converted to a J
 To retrieve a combined list of publications from all staff, use:
 
 	$url = 'URL TO PEOPLE/STAFF DIRECTORY';
-	$authors = new \NottPubs\Authors($url);
+	$authors = new \Porcheron\UonPaperScraper\Authors($url);
 	$publications = $authors->publications(true);
 

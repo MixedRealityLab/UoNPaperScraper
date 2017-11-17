@@ -7,7 +7,7 @@
  * @license MIT
  */
 
-namespace NottPubs;
+namespace Porcheron\UonPaperScraper;
 
 /**
  * A list of publications for an author. Attempts are made to eliminate duplicate papers.
@@ -16,7 +16,7 @@ class Publications extends \ArrayObject implements \JsonSerializable
 {
     /**
      * @deprecated
-     *  This function has been replaced by \NottPubs\Author::publications($crawl);
+     *  This function has been replaced by \Porcheron\UonPaperScraper\Author::publications($crawl);
      * @throws \BadFunctionCallException
      */
     public function crawl($url)
@@ -27,10 +27,10 @@ class Publications extends \ArrayObject implements \JsonSerializable
     /**
      * Add an existing \Publication to the list.
      *
-     * @param \NottPubs\Publication $pub
-     *  Existing \NottPubs\Publication object.
+     * @param \Porcheron\UonPaperScraper\Publication $pub
+     *  Existing \Porcheron\UonPaperScraper\Publication object.
      */
-    public function add(\NottPubs\Publication $pub)
+    public function add(\Porcheron\UonPaperScraper\Publication $pub)
     {
         if (!\is_null($pub->doi())) {
             if ($this->offsetExists($pub->doi())) {
@@ -75,12 +75,12 @@ class Publications extends \ArrayObject implements \JsonSerializable
             }
         }
 
-        $this->offsetSet($key, new \NottPubs\Publication($doi, $year, $title, $html));
+        $this->offsetSet($key, new \Porcheron\UonPaperScraper\Publication($doi, $year, $title, $html));
     }
 
     /**
      * @deprecated
-     *  This was renamed to {@code \NottPubs\Publications::appendNew($doi, $year, $title, $html)} for clarity.
+     *  This was renamed to {@code \Porcheron\UonPaperScraper\Publications::appendNew($doi, $year, $title, $html)} for clarity.
      */
     public function addPub($doi, $year, $title, $html)
     {
@@ -90,10 +90,10 @@ class Publications extends \ArrayObject implements \JsonSerializable
     /**
      * Merge an existing publications list.
      *
-     * @param \NottPubs\Publications $pubs
+     * @param \Porcheron\UonPaperScraper\Publications $pubs
      *  An existing publications list to merge.
      */
-    public function merge(\NottPubs\Publications $pubs)
+    public function merge(\Porcheron\UonPaperScraper\Publications $pubs)
     {
         foreach ($pubs as &$pub) {
             $this->add($pub);
