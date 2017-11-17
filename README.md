@@ -1,10 +1,13 @@
-# uom-paper-scraper
+<h1 align="center">
+	University of Nottingham<br />
+	Paper Scraper
+</h1>
 
-Utility to scrape a collection of staff profile pages from the University of Nottingham to allow for collation of publication lists.
+A utility to scrape a collection of staff profile pages from the University of Nottingham to allow for collation of publication lists.
 
 ## Setup
 
-Download the latest version of the repository (no 'releases' are planned). You will need a local copy of [Composer](http://getcomposer.org) in the root of the downloaded repository. Run the command `php composer.phar install`.
+Download the latest version of the repository (no 'releases' are planned). You will need a local copy of [Composer](http://getcomposer.org) in the root of the downloaded repository. Run the command `php composer.phar install`. Beyond this, look at how to use the code by checking out the `example.php` file.
 
 ## Examples
 Below are a number of separate examples. See `example.php` for example scraping of an entire website and converting the output into HTML, including grouping publications into five-year batches.
