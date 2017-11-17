@@ -13,7 +13,7 @@ Download the latest version of the repository (no 'releases' are planned). You w
 Below are a number of separate examples. See `example.php` for example scraping of an entire website and converting the output into HTML, including grouping publications into five-year batches.
 
 ### Author List
-To extract an [iterable list](http://php.net/manual/en/class.arrayobject.php) of authors, use:
+To extract an [iterable list](http://php.net/manual/en/class.arrayobject.php) of authors:
 	
 	$url = 'URL TO PEOPLE/STAFF DIRECTORY';
 	$authors = new \Porcheron\UonPaperScraper\Authors($url); // specifying a URL causes a crawl to occur
@@ -27,8 +27,8 @@ This list can also be converted to a JSON list using the standard PHP `json_enco
 
 	\json_encode($authors);
 
-### An Staff Member's Publication List
-To retrieve the list of publications for a single staff member, do:
+### A Staff Member's Publication List
+To retrieve the list of publications for a single staff member:
 
 	$surname = 'SURNAME';
 	$otherNames = 'OTHER NAMES';
