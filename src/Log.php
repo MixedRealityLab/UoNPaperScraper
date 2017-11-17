@@ -3,7 +3,7 @@
 /**
  * University of Nottingham publication scraper.
  *
- * @author  Martin Porcheron <martin@porcheron.uk>
+ * @author  Martin Porcheron <martin-uonpaperscraper@porcheron.uk>
  * @license MIT
  */
 
