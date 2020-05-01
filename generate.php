@@ -31,7 +31,7 @@ require 'vendor/autoload.php';
 \define('GRP_ST', 1995);
 
 // Last year to group publications to
-\define('GRP_END', 2020);
+\define('GRP_END', 2025);
 
 // How many years appear in each group
 \define('GRP_INC', 5);
@@ -122,16 +122,17 @@ for ($i = 0; $i < $numYears; $i++) {
         continue;
     }
 
-    $title = \sprintf('<h1>%s</h1>', STR_TITLE);
+
+	$title = \sprintf('<div contenteditable="false" atomicselection="true" id="TEMPLBanner-image-with-manual-page-title" class="sys_template" style="border: 1px dashed #ff0000;" data-cms="{\'name\':\'Banner-image-with-manual-page-title\'}"><div class="sys_detailImage"><div contenteditable="true" id="ManualPageThumbnail" class="sys_placeholder sys_placeholder-ManualPageThumbnail" style="border: 1px dashed #00ff00;" data-cms="{\'title\':\'ManualPageThumbnail\',\'width\':\'\',\'height\':\'\',\'constrainWidth\':false,\'constrainHeight\':false,\'tagToRender\':\'none\',\'displayType\':0,\'textOnly\':false,\'placeholderClass\':\'\',\'allowUsersToChangeStyles\':false,\'allowLinks\':true,\'allowSubTemplates\':true,\'allowHTMLSnippets\':true,\'allowImages\':true,\'allowMedia\':true,\'allowForms\':true,\'allowWebControls\':true,\'allowRazorViews\':true}"><div contenteditable="false" atomicselection="true" id="OCTRL10281" class="sys_component" data-cms="{\'cmsControlId\':10281,\'image\':\'9405120\',\'cmsControlType\':1}">Manual-Page-Thumbnail</div></div><div contenteditable="true" id="ManualTitle" class="sys_placeholder sys_placeholder-ManualTitle" style="border: 1px dashed #00ff00;" data-cms="{\'title\':\'ManualTitle\',\'width\':\'\',\'height\':\'\',\'constrainWidth\':false,\'constrainHeight\':false,\'tagToRender\':\'none\',\'displayType\':0,\'textOnly\':true,\'placeholderClass\':\'\',\'allowUsersToChangeStyles\':false,\'allowLinks\':false,\'allowSubTemplates\':false,\'allowHTMLSnippets\':false,\'allowImages\':false,\'allowMedia\':false,\'allowForms\':false,\'allowWebControls\':false,\'allowRazorViews\':false}"><h1>%s</h1></div></div></div><p>&nbsp;</p>', STR_TITLE);
     $file = \sprintf(PATH_GRP . PATH_GRP_FILE, $lastYear, $firstYear);
 
     if ($lastYear == GRP_END-1) {
         $file = PATH_GRP . 'latest.html';
     } else {
-        $title = '<a title="'. STR_TITLE .'" href="#contensis" data-cms="{\'contentId\':8925030,\'contentTypeId\':16}">'. STR_TITLE .'</a> &raquo; '. $lastYear .' &mdash; '. $firstYear .'</h1>';
+	$title = \sprintf('<div contenteditable="false" atomicselection="true" id="TEMPLBanner-image-with-manual-page-title" class="sys_template" style="border: 1px dashed #ff0000;" data-cms="{\'name\':\'Banner-image-with-manual-page-title\'}"><div class="sys_detailImage"><div contenteditable="true" id="ManualPageThumbnail" class="sys_placeholder sys_placeholder-ManualPageThumbnail" style="border: 1px dashed #00ff00;" data-cms="{\'title\':\'ManualPageThumbnail\',\'width\':\'\',\'height\':\'\',\'constrainWidth\':false,\'constrainHeight\':false,\'tagToRender\':\'none\',\'displayType\':0,\'textOnly\':false,\'placeholderClass\':\'\',\'allowUsersToChangeStyles\':false,\'allowLinks\':true,\'allowSubTemplates\':true,\'allowHTMLSnippets\':true,\'allowImages\':true,\'allowMedia\':true,\'allowForms\':true,\'allowWebControls\':true,\'allowRazorViews\':true}"><div contenteditable="false" atomicselection="true" id="OCTRL10281" class="sys_component" data-cms="{\'cmsControlId\':10281,\'image\':\'9405120\',\'cmsControlType\':1}">Manual-Page-Thumbnail</div></div><div contenteditable="true" id="ManualTitle" class="sys_placeholder sys_placeholder-ManualTitle" style="border: 1px dashed #00ff00;" data-cms="{\'title\':\'ManualTitle\',\'width\':\'\',\'height\':\'\',\'constrainWidth\':false,\'constrainHeight\':false,\'tagToRender\':\'none\',\'displayType\':0,\'textOnly\':true,\'placeholderClass\':\'\',\'allowUsersToChangeStyles\':false,\'allowLinks\':false,\'allowSubTemplates\':false,\'allowHTMLSnippets\':false,\'allowImages\':false,\'allowMedia\':false,\'allowForms\':false,\'allowWebControls\':false,\'allowRazorViews\':false}"><h1>%s&nbsp;<strong>(%d&ndash;%d)</strong></h1></div></div></div><p>&nbsp;</p>', STR_TITLE, $firstYear, $lastYear);
     }
 
-    $html = $title . $html;
+    $html = $title . $html . '<div contenteditable="false" atomicselection="true" id="OCTRL272" class="sys_component" data-cms="{\'cmsControlType\':0,\'cmsControlId\':272,\'razorviewcontentid\':\'9199222\'}">Razor View</div>';
     @\mkdir(\dirname($file), 0777, true);
     \file_put_contents($file, $html);
 }
